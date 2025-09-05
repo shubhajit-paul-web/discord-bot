@@ -1,8 +1,18 @@
 require("dotenv").config();
+const app = require("./src/app"); 
 const { Client, GatewayIntentBits } = require("discord.js");
 const { GoogleGenAI } = require("@google/genai");
 const connectDB = require("./src/db/db");
 const Message = require("./src/models/message.model");
+
+// Start the dummy express server
+(() => {
+	const PORT = process.env.PORT || 8000;
+
+	app.listen(PORT, () => {
+		console.log(`Web server is running on port ${PORT}`);
+	});
+})();
 
 connectDB();
 
