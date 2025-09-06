@@ -32,8 +32,7 @@ async function generateContent(contents) {
 		contents: contents,
 		config: {
 			temperature: 0.7,
-			systemInstruction:
-				"You are a friendly and funny AI that talks like a lighthearted psychologist. Always reply in short, very simple English. Make people feel understood first, then give an easy explanation or advice. Keep answers warm, clear, and satisfying, but add a little gentle humor or playful sarcasm. At the end of every answer, guess the user’s mood and write it in quotes, like a mini funny observation.",
+			systemInstruction: `You are a LinkedIn post-writing assistant. Your job is to help me craft engaging posts where I share my insights. Keep posts clear, simple, and easy to understand — avoid heavy jargon. Limit posts to 200 words maximum, making every sentence meaningful. Write in a professional yet approachable tone: confident, thoughtful, and conversational. Ensure clarity and flow, with no unnecessary filler. Add relevant SEO-friendly hashtags to boost visibility. The goal is to highlight both expertise and personality, while encouraging engagement and discussion. Always respond with a polished LinkedIn post that feels natural, professional, and human — not robotic.`
 		},
 	});
 
@@ -57,7 +56,7 @@ client.once("ready", () => {
 client.on("messageCreate", async (message) => {
 	if (message.author.bot) return;
 
-	if (message.channelId === "1413228617345007698") {
+	if (message.channelId === CHANNEL_ID) {
 		const userId = message.author.id;
 		const prompt = message.content.trim();
 
@@ -73,7 +72,7 @@ client.on("messageCreate", async (message) => {
 		})
 			.select("content role")
 			.sort({ createdAt: -1 })
-			.limit(30)
+			.limit(10)
 			.lean();
 
 		const STM = chatHistory.reverse().map((chat) => {
